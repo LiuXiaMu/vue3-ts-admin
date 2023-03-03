@@ -1,30 +1,36 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div id="app">
+    <router-view />
+
+  </div>
 </template>
+<script setup lang="ts">
+// 当前页面宽度相对于 750 宽的缩放比例，可根据自己需要修改。
+const baseSize: number = 12;
+const scale: number = document.documentElement.clientWidth / 375;
+// 设置页面根节点字体大小
+let fontSize: number = baseSize * Math.min(scale, 2);
+document.documentElement.style.fontSize = fontSize + "px";
+// 解决手机系统设置字体大小后,qq内置浏览器rem排版错乱问题
+// getComputedStyle能获取被系统放大后的字体
+let computed: any = window
+  .getComputedStyle(document.getElementsByTagName("html")[0])
+let computedFontSize: any = computed["font-size"].replace(/px/gi, "");
+let multiple = fontSize / computedFontSize;
+document.documentElement.style.fontSize = fontSize * multiple + "px";
 
+
+</script>
 <style>
+@import url(../public/reset.css);
+
+body {
+  font-size: 100%;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
 }
 </style>
